@@ -9,6 +9,8 @@ void menu() {
 
     cout << "to jest menu";
     
+    cout << "super test";
+
 }
 
 void wektor() {
