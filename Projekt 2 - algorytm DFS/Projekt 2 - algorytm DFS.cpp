@@ -1,4 +1,5 @@
-﻿#include <iostream>
+﻿//buddy - sasiad
+#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -18,38 +19,37 @@ struct wektory {
         cout << "3";
     };
 
-void menu() {
 
-    int choice; 
+    void menu() {
 
-    cout << "1. Wybieranie grafu\n";
-    cout << "2. Dodawanie do grafu\n";
-    cout << "3. Usuwanie z grafu\n";
+        int choice;
 
-    cin >> choice; 
+        cout << "1. Wybieranie grafu\n";
+        cout << "2. Dodawanie do grafu\n";
+        cout << "3. Usuwanie z grafu\n";
 
-    switch (choice) {
-    case 1:
-        wybranie_grafu();
-        break;
+        cin >> choice;
 
-    case 2:
+        switch (choice) {
+        case 1:
+            wybranie_grafu();
+            break;
 
-        dodaj_do_grafu();
-        break;
+        case 2:
+
+            dodaj_do_grafu();
+            break;
 
     case 3:
 
-        usun_z_grafu();
-        break;
+            usun_z_grafu();
+            break;
 
-    }
-    
-}
+        }
+    };
 
-
-int main()
-{
+    int main()
+    {
     cout << "Algorytm DFS przeszukujacy graf \n";
     cout << "Made by Jakub Kozlowski 197623 & Szymon Mielniczak 197956\n";
 
