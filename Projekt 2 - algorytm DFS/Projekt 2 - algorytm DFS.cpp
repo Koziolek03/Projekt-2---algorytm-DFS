@@ -3,9 +3,18 @@
 
 #include <iostream>
 
+using namespace std;
+
+void menu() {
+
+    cout << "to jest menu";
+    
+}
+
 int main()
 {
-    std::cout << "Hello World!\n";
+    cout << "Hello World!\n";
+    menu();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
