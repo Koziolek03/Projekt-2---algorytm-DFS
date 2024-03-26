@@ -11,10 +11,15 @@ void menu() {
     
 }
 
+void wektor() {
+
+    cout << "nowy wektor";
+}
 int main()
 {
     cout << "Hello World!\n";
     menu();
+    wektor();
 }
 
 // Tips for Getting Started: 
