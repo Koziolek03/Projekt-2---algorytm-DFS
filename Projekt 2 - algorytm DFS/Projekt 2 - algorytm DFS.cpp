@@ -11,7 +11,7 @@ struct node {
 
 void wybranie_grafu1(vector<node>& graf) {
     cout << "Wybrano graf 1" << endl;
-    node w0 = { 0,0,{1} };
+    node w0 = { };
     node w1 = { 12, 0, {2, 3, 6, 7, 8} };
     node w2 = { 18, 0, {1, 3, 4, 8} };
     node w3 = { 24, 0, {1, 2, 6, 8} };
@@ -33,7 +33,7 @@ void wybranie_grafu1(vector<node>& graf) {
 }
 void wybranie_grafu2(vector<node>& graf) {
     cout << "Wybrano graf 2" << endl;
-    node w0 = { 0, 0, {1} };
+    node w0 = { };
     node w1 = { 112, 0, {2,3,5} };
     node w2 = { 198, 0, {1,4,6} };
     node w3 = { 264, 0, {1,5} };
@@ -53,7 +53,7 @@ void wybranie_grafu2(vector<node>& graf) {
 }
 void wybranie_grafu3(vector<node>& graf) {
     cout << "Wybrano graf 3" << endl;
-    node w0 = { 0,0,{1} };
+    node w0 = { };
     node w1 = { 121, 0, {4,9} };
     node w2 = { 184, 0, {3,10} };
     node w3 = { 224, 0, {2,4,6,8} };
@@ -116,6 +116,10 @@ void wybranie_grafu3(vector<node>& graf) {
         case 6:
             exit = 1;
             break;
+
+        default:
+            cout << "Nie ma takiej funkcji";
+
         }
     }
     
