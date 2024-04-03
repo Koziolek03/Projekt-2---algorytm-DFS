@@ -126,14 +126,15 @@ void menu(bool& exit, vector<node>& graf) {
 	}
 }
 
-void setup(vector<node> graf, stack<int>& stos) {
+void setup(vector<node> graf, stack<int>& stos,int &maxValue) {
 
 
-	if (graf.size()>=2) {// Sprawdź, czy istnieje pierwszy wierzchołek 
-		
+	if (graf.size() >= 2) {// Sprawdź, czy istnieje pierwszy wierzchołek 
+		maxValue = graf[1].value;
+		graf[1].visited = true;
 		if (!graf[1].buddy.empty()) {// Sprawdź, czy wektor buddy pierwszego wierzchołka nie jest pusty
-			
-			 stos.push(1);//zaczynamy algorym zawsze od pierwszego wierzchołka 
+
+			stos.push(1);//zaczynamy algorym zawsze od pierwszego wierzchołka 
 		}
 		else {
 			cout << "Wektor buddy pierwszego wierzcholka grafu jest pusty" << endl;
@@ -142,15 +143,35 @@ void setup(vector<node> graf, stack<int>& stos) {
 	else {
 		cout << "Wektor graf jest pusty" << endl;
 	}
+	
+
 }
-void DFS(vector<node>&graf, stack<int>&stos, bool przeszukany) {
+void DFS(vector<node>& graf, stack<int>& stos, bool przeszukany, int &maxValue) {
 
+	if (!graf[stos.top()].visited) {//poszukiwanie wartości w nowym wierzchołku 
+		if (maxValue < graf[stos.top()].value) {
+			maxValue = graf[stos.top()].value;
+		}
+		graf[stos.top()].visited = true;
+	}
 
+	for (int i = 0; i < graf[stos.top()].buddy.size(); i++)//iterowanie po sąsiadach wierzchołka
+	{ //graf[1].buddy ,, stos.top = 1
+		int tempSasiad = graf[stos.top()].buddy[i];
+		if (!graf[tempSasiad].visited)//sprawdzanie czy sąsiad nie był odwiedzony
+		{
+			stos.push(tempSasiad);
+			return;
 
+		}
+
+	}
+	stos.pop();
 }
 
 int main()
 {
+	int maxValue;
 	bool exit = 0;
 	bool przeszukany = 0;
 	vector<node>graf;
@@ -163,11 +184,11 @@ int main()
 	{
 		menu(exit, graf);
 	}
-	 
-	setup(graf, stos);
-	while (!przeszukany) 
+
+	setup(graf, stos,maxValue);
+	while (!przeszukany)
 	{
-		DFS(graf, stos, przeszukany);
+		DFS(graf, stos, przeszukany,maxValue);
 	}
 }
 
