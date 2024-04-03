@@ -4,13 +4,25 @@
 using namespace std;
 
 struct node {
-    double value;
-    bool visited;
+    double value = 0;
+    bool visited = false;
     vector <int> buddy;
 };
 
+
+void wypisz_graf(const vector<node>& graf) {
+    cout << "\nAktualny graf :\n";
+    for (int i = 1; i < graf.size(); ++i) {
+        cout << "Wierzcholek " << i << ", wartosc: " << graf[i].value << ", sasiedzi: ";
+        for (int sasiad : graf[i].buddy) {
+            cout << sasiad << ",";
+        }
+        cout << endl;
+    }
+}
+
 void wybranie_grafu1(vector<node>& graf) {
-    cout << "Wybrano graf 1" << endl;
+    cout << "\nWybrano graf 1" << endl;
     node w0 = { };
     node w1 = { 12, 0, {2, 3, 6, 7, 8} };
     node w2 = { 18, 0, {1, 3, 4, 8} };
@@ -23,16 +35,10 @@ void wybranie_grafu1(vector<node>& graf) {
 
     graf = { w0, w1, w2, w3, w4, w5, w6, w7, w8 };
 
-    for (int i = 1; i < graf.size(); ++i) {
-        cout << "Wierzcholek "<< i <<", wartosc: " << graf[i].value << ", sasiedzi: ";
-        for (int sasiad : graf[i].buddy) {
-            cout << sasiad << ",";
-        }
-        cout << endl;
-    }
+    wypisz_graf(graf);
 }
 void wybranie_grafu2(vector<node>& graf) {
-    cout << "Wybrano graf 2" << endl;
+    cout << "\nWybrano graf 2" << endl;
     node w0 = { };
     node w1 = { 112, 0, {2,3,5} };
     node w2 = { 198, 0, {1,4,6} };
@@ -43,16 +49,10 @@ void wybranie_grafu2(vector<node>& graf) {
 
     graf = {w0, w1, w2, w3, w4, w5, w6 };
 
-    for (int i = 1; i < graf.size(); ++i) {
-        cout << "Wierzcholek " << i << ", wartosc: " << graf[i].value << ", sasiedzi: ";
-        for (int sasiad : graf[i].buddy) {
-            cout << sasiad << ",";
-        }
-        cout << endl;
-    }
+    wypisz_graf(graf);
 }
 void wybranie_grafu3(vector<node>& graf) {
-    cout << "Wybrano graf 3" << endl;
+    cout << "\nWybrano graf 3" << endl;
     node w0 = { };
     node w1 = { 121, 0, {4,9} };
     node w2 = { 184, 0, {3,10} };
@@ -67,18 +67,39 @@ void wybranie_grafu3(vector<node>& graf) {
 
     graf = { w0, w1, w2, w3, w4, w5, w6, w7, w8, w9, w10 };
 
-    for (int i = 1; i < graf.size(); ++i) {
-        cout << "Wierzcholek " << i << ", wartosc: " << graf[i].value << ", sasiedzi: ";
-        for (int sasiad : graf[i].buddy) {
-            cout << sasiad << ",";
-        }
-        cout << endl;
-    }
+    wypisz_graf(graf);
 }
 
     void dodaj_do_grafu(vector<node>& graf) {
-        cout << "2";
+        double value;
+        cout << "Podaj wartosc nowego wierzcholka\n";
+        cin >> value;
+
+        node nowyWierzcholek;
+        nowyWierzcholek.value = value;
+        nowyWierzcholek.visited = false;
+        graf.push_back(nowyWierzcholek);
+
+        int ileKrawedzi;
+        cout << "Ile krawedzi ma wychodzic z tego wierzcholka?\n";
+        cin >> ileKrawedzi;
+        if (ileKrawedzi >= 1 && ileKrawedzi < graf.size()-1) {
+            cout << "Do ktorych wierzcholkow maja prowadzic te krawedzie?\n";
+            for (int i = 0; i < ileKrawedzi; ++i) {
+                int buddy;
+                cin >> buddy;
+                if (buddy >= 1 && buddy < graf.size()-1) {
+                    graf[graf.size() - 1].buddy.push_back(buddy);
+                    graf[buddy].buddy.push_back(graf.size() - 1);
+                }
+                else { cout << "Nie ma takiego wierzcholka!\n"; }
+            }
+        }
+        else { cout << "Nie ma tylu wierzcholkow!\n"; }
+        cout << "Nowy wierzcholek dodany do grafu.\n\n";
+        wypisz_graf(graf);
     };
+
     void usun_z_grafu(vector<node>& graf) {
         cout << "3";
     };
@@ -88,7 +109,7 @@ void wybranie_grafu3(vector<node>& graf) {
         
         int choice;
         
-        cout << "1. Wybieranie grafu 1\n";
+        cout << "\n1. Wybieranie grafu 1\n";
         cout << "2. Wybieranie grafu 2\n";
         cout << "3. Wybieranie grafu 3\n";
         cout << "4. Dodawanie do grafu\n";
