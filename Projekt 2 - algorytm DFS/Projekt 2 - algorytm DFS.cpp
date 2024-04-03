@@ -14,7 +14,7 @@ void wybranie_grafu1(vector<node>& graf) {
     node w0 = { };
     node w1 = { 12, 0, {2, 3, 6, 7, 8} };
     node w2 = { 18, 0, {1, 3, 4, 8} };
-    node w3 = { 24, 0, {1, 2, 6, 8} };
+    node w3 = { 24, 0, {1, 2, 5, 8} };
     node w4 = { 3, 0, {2} };
     node w5 = { 62, 0, {3} };
     node w6 = { 55, 0, {1} };
