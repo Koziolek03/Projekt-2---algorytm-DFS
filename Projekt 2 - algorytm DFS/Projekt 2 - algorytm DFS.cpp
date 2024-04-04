@@ -17,7 +17,7 @@ void wybranie_grafu1(vector<node>& graf) {
 	node w0 = { };
 	node w1 = { 12, 0, {2, 3, 6, 7, 8} };
 	node w2 = { 18, 0, {1, 3, 4, 8} };
-	node w3 = { 24, 0, {1, 2, 6, 8} };
+	node w3 = { 24, 0, {1, 2, 5, 8} };
 	node w4 = { 3, 0, {2} };
 	node w5 = { 62, 0, {3} };
 	node w6 = { 55, 0, {1} };
@@ -146,7 +146,7 @@ void setup(vector<node> graf, stack<int>& stos, int& maxValue) {
 
 
 }
-void DFS(vector<node>& graf, stack<int>& stos, bool &przeszukany, int& maxValue) {
+void DFS(vector<node>& graf, stack<int>& stos, bool& przeszukany, int& maxValue) {
 
 	if (!graf[stos.top()].visited) {//poszukiwanie wartości w nowym wierzchołku 
 		if (maxValue < graf[stos.top()].value) {
@@ -154,7 +154,7 @@ void DFS(vector<node>& graf, stack<int>& stos, bool &przeszukany, int& maxValue)
 		}
 		graf[stos.top()].visited = true;
 	}
-	cout << "Stos top: "<<stos.top()<<endl;
+	cout << "Stos top: " << stos.top() << endl;
 	for (int i = 0; i < graf[stos.top()].buddy.size(); i++)//iterowanie po sąsiadach wierzchołka
 	{ //graf[1].buddy ,, stos.top = 1
 		int tempSasiad = graf[stos.top()].buddy[i];
@@ -167,7 +167,7 @@ void DFS(vector<node>& graf, stack<int>& stos, bool &przeszukany, int& maxValue)
 
 	}
 	stos.pop();
-	if(!stos.empty()) cout << "Stos top po pop: " << stos.top()<<endl;
+	if (!stos.empty()) cout << "Stos top po pop: " << stos.top() << endl;
 	if (stos.empty()) {
 		przeszukany = 1;
 	}
