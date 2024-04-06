@@ -9,7 +9,6 @@ struct node {
     vector <int> buddy;
 };
 
-
 void wypisz_graf(const vector<node>& graf) {
     cout << "\nAktualny graf :\n";
     for (int i = 1; i < graf.size(); ++i) {
@@ -37,6 +36,7 @@ void wybranie_grafu1(vector<node>& graf) {
 
     wypisz_graf(graf);
 }
+
 void wybranie_grafu2(vector<node>& graf) {
     cout << "\nWybrano graf 2" << endl;
     node w0 = { };
@@ -51,6 +51,7 @@ void wybranie_grafu2(vector<node>& graf) {
 
     wypisz_graf(graf);
 }
+
 void wybranie_grafu3(vector<node>& graf) {
     cout << "\nWybrano graf 3" << endl;
     node w0 = { };
@@ -70,7 +71,7 @@ void wybranie_grafu3(vector<node>& graf) {
     wypisz_graf(graf);
 }
 
-    void dodaj_do_grafu(vector<node>& graf) {
+    void dodaj_do_grafu(vector<node>& graf) { //do poprawy: dodawanie wierzcholka, gdy graf jest pusty i niektore warunki
         double value;
         cout << "Podaj wartosc nowego wierzcholka\n";
         cin >> value;
@@ -100,10 +101,81 @@ void wybranie_grafu3(vector<node>& graf) {
         wypisz_graf(graf);
     };
 
-    void usun_z_grafu(vector<node>& graf) {
-        cout << "3";
-    };
+    void usun_puste_wierzcholki(vector<node>& graf) {
+        for (int i = 1; i < graf.size();) {
+            if (graf[i].buddy.empty()) {
+                graf.erase(graf.begin() + i);
+            }
+            else {
+                ++i;
+            }
+        }
+                                        // Aktualizacja sąsiadów
+        for (int i = 1; i < graf.size(); ++i) {
+            for (int& sasiad : graf[i].buddy) {
+                if (sasiad > i) {
+                    --sasiad;
+                }
+            }
+        }
+        cout << "Usunieto puste wierzcholki i uporzadkowano graf.\n\n";
+        wypisz_graf(graf);
+    }
 
+    void usun_z_grafu(vector<node>& graf) {
+        if (graf.size() > 1) {
+            cout << "Co chcesz usunac :\n1 - wierzcholek \n2 - krawedz\n3 - wszystko\n";
+            int choice;
+            cin >> choice;
+            if (choice == 1) {
+                cout << "Ktory wierzcholek chcesz usunac?\n";
+                int ktory;
+                cin >> ktory;
+                if (ktory >= 1 && ktory < graf.size()) {
+                    for (int i = 1; i < graf.size(); ++i) {  // Usuń wszystkie krawędzie prowadzące do tego wierzchołka
+                        auto& buddies = graf[i].buddy;
+                        buddies.erase(remove(buddies.begin(), buddies.end(), ktory), buddies.end());
+                    }
+                    // Usuń wszystkie krawędzie wychodzące z tego wierzchołka
+                    graf[ktory].buddy.clear();
+                    cout << "Wierzcholek " << ktory << " usuniety z grafu.\n\n";
+                }
+                else {
+                    cout << "Nie ma takiego wierzcholka!\n";
+                }
+            }
+            else if (choice == 2) {
+                cout << "Ktora krawedz chcesz usunac?\n";
+                int start, koniec;
+                cin >> start >> koniec;
+                if (start >= 1 && start < graf.size() && koniec >= 1 && koniec < graf.size()) {
+                    auto& startBuddies = graf[start].buddy;
+                    startBuddies.erase(remove(startBuddies.begin(), startBuddies.end(), koniec), startBuddies.end());
+
+                    auto& endBuddies = graf[koniec].buddy;
+                    endBuddies.erase(remove(endBuddies.begin(), endBuddies.end(), start), endBuddies.end());
+
+                    cout << "Krawedz pomiedzy wierzcholkami " << start << " i " << koniec << " usunieta z grafu.\n\n";
+                    
+                }
+                else {
+                    cout << "Nie ma takich wierzcholkow!\n";
+                }
+            }
+            else if (choice == 3) {
+                graf.clear();
+                node w0 = { };
+                cout << "Graf zostal usuniety\n";
+            }
+            else {
+                cout << "Nie ma takiej operacji\n";
+            }
+        }
+        else {
+            cout << "Nie ma czego usuwac\n";
+        }
+        usun_puste_wierzcholki(graf);
+    };
 
     void menu(bool &exit,vector<node>&graf) {
         
@@ -137,13 +209,10 @@ void wybranie_grafu3(vector<node>& graf) {
         case 6:
             exit = 1;
             break;
-
         default:
             cout << "Nie ma takiej funkcji";
-
         }
     }
-    
 
     int main()
     {
