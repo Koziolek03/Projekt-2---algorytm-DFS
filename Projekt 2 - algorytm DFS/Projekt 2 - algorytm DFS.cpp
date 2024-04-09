@@ -182,6 +182,14 @@ void usun_krawendz(vector<node>&graf,int start,int stop) {
 				graf[start].buddy.pop_back();
 			}
 		}
+		for (int j = 0; j < graf[stop].buddy.size(); j++) {
+			if (j < graf[stop].buddy.size() - 1) {
+				graf[stop].buddy[j] = graf[stop].buddy[j + 1];
+			}
+			else {
+				graf[stop].buddy.pop_back();
+			}
+		}
 	}
 	usun_puste_wierzcholki(graf);
 }
