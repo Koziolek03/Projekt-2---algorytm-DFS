@@ -106,12 +106,12 @@ void dodaj_do_grafu(vector<node>& graf) { //do poprawy: dodawanie wierzcholka, g
 
 void usun(vector<node>& graf, int ktory) {
 	bool przesuwanie = 0;
-	graf[ktory] = { };
+	graf[ktory] = { };//który wierzchołek do usunięcia 
 
 	for (int i = 1; i < graf.size(); i++) {
 		przesuwanie = 0;
 		for (int j = 0; j < graf[i].buddy.size(); j++) {
-			if (graf[i].buddy[j] == ktory) {
+			if (graf[i].buddy[j] == ktory) {//szukanie w innych wierzchołkach czy mają sąsiada, zapis indeksu sąsiada  
 				przesuwanie = 1;
 			}
 			if (przesuwanie && j < graf[i].buddy.size() - 1) {
@@ -169,12 +169,22 @@ void usun_wierzcholek(vector<node>& graf, int& ktory) {
 void usun_krawendz(vector<node>&graf,int start,int stop) {
 	bool przesuwanie = 0;
 	bool istnieje = 0;
-	int ktory;
-	for (int i = 0; i < graf[start].buddy.size(); i++) {
-		if (graf[start].buddy[i] == stop) istnieje = 1;
+	int ktory_stop;
+	int ktory_start;
+	for (int i = 0; i < graf[start].buddy.size(); i++) {//sprawdzam czy jest połączenie 
+		if (graf[start].buddy[i] == stop) {//i indeks wierzchołka stop w start 
+			istnieje = 1;
+			ktory_stop = i;
+		}
+	}
+	for (int i = 0; i < graf[stop].buddy.size(); i++) {//sprawdzam czy jest połączenie 
+		if (graf[stop].buddy[i] == start) {//i indeks wierzchołka start w stop
+			istnieje = 1;
+			ktory_start = i;
+		}
 	}
 	if (istnieje) {
-		for (int j = 0; j < graf[start].buddy.size();j++) {
+		for (int j = ktory_stop; j < graf[start].buddy.size();j++) {//przesuwanie od indeksu stop 
 			if (j < graf[start].buddy.size() - 1) {
 				graf[start].buddy[j] = graf[start].buddy[j + 1];
 			}
@@ -182,7 +192,7 @@ void usun_krawendz(vector<node>&graf,int start,int stop) {
 				graf[start].buddy.pop_back();
 			}
 		}
-		for (int j = 0; j < graf[stop].buddy.size(); j++) {
+		for (int j = ktory_start; j < graf[stop].buddy.size(); j++) {
 			if (j < graf[stop].buddy.size() - 1) {
 				graf[stop].buddy[j] = graf[stop].buddy[j + 1];
 			}
@@ -191,6 +201,7 @@ void usun_krawendz(vector<node>&graf,int start,int stop) {
 			}
 		}
 	}
+	wypisz_graf(graf);
 	usun_puste_wierzcholki(graf);
 }
 
