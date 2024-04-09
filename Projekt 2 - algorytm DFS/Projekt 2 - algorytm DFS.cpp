@@ -104,25 +104,58 @@ void dodaj_do_grafu(vector<node>& graf) { //do poprawy: dodawanie wierzcholka, g
 	wypisz_graf(graf);
 };
 
-void usun_puste_wierzcholki(vector<node>& graf) {
-	for (int i = 1; i < graf.size();) {
-		if (graf[i].buddy.empty()) {
-			graf.erase(graf.begin() + i);
-		}
-		else {
-			++i;
-		}
-	}
-	// Aktualizacja sąsiadów
-	for (int i = 1; i < graf.size(); ++i) {
-		for (int& sasiad : graf[i].buddy) {
-			if (sasiad > i) {
-				--sasiad;
+void usun(vector<node>& graf, int ktory) {
+	bool przesuwanie = 0;
+	graf[ktory] = { };
+
+	for (int i = 1; i < graf.size(); i++) {
+		przesuwanie = 0;
+		for (int j = 0; j < graf[i].buddy.size(); j++) {
+			if (graf[i].buddy[j] == ktory) {
+				przesuwanie = 1;
+			}
+			if (przesuwanie && j < graf[i].buddy.size() - 1) {
+				graf[i].buddy[j] = graf[i].buddy[j + 1];
+			}
+			else if (przesuwanie) {
+				graf[i].buddy.pop_back();
+
 			}
 		}
 	}
-	cout << "Usunieto puste wierzcholki i uporzadkowano graf.\n\n";
+	for (int i = ktory; i < graf.size() - 1; i++) {
+		graf[i] = graf[i + 1];
+	}
+	graf.pop_back();
+
+	for (int i = 1; i < graf.size(); i++) {
+		for (int j = 0; j < graf[i].buddy.size(); j++) {
+
+			if (graf[i].buddy[j] > ktory) {
+				--graf[i].buddy[j];
+			}
+		}
+	}
+
+}
+void usun_puste_wierzcholki(vector<node>& graf) {
+	int ktory;
+	bool kompletny = 0;
+	while (!kompletny) {
+		kompletny = 1;
+		for (int i = 1; i < graf.size(); i++) {
+			if (graf[i].buddy.empty()) {
+				kompletny = 0;
+				ktory = i;
+				usun(graf, ktory);
+
+			}
+		}
+	}
+
+
 	wypisz_graf(graf);
+	cout << "Usunieto puste wierzcholki i uporzadkowano graf.\n\n";
 }
 //void usun_z_grafu(vector<node>& graf) {
 //	if (graf.size() > 1) {
@@ -179,43 +212,12 @@ void usun_puste_wierzcholki(vector<node>& graf) {
 //	usun_puste_wierzcholki(graf);
 //}
 void usun_wierzcholek(vector<node>& graf, int& ktory) {
-	bool przesuwanie = 0;
-	graf[ktory] = { };
+	usun(graf, ktory);
 
-	for (int i = 1; i < graf.size(); i++) {
-		przesuwanie = 0;
-		for (int j = 0; j < graf[i].buddy.size(); j++) {
-			if (graf[i].buddy[j] == ktory) {
-				przesuwanie = 1;
-			}
-			if (przesuwanie && j < graf[i].buddy.size() - 1) {
-				graf[i].buddy[j] = graf[i].buddy[j + 1];
-			}
-			else if (przesuwanie) {
-				graf[i].buddy.pop_back();
-				//cout << "graf" << i << "zawiera " << graf[i].buddy.size() <<endl;
-			}
-		}
-	}
+	wypisz_graf(graf);
 
-	for (int i = ktory; i < graf.size() - 1; i++) {
-		graf[i] = graf[i + 1];
-	}
-	graf.pop_back();
+	usun_puste_wierzcholki(graf);
 
-	//cout << "teraz graf zawiera " << graf.size()<<"-1"<<endl;
-
-	for (int i = 1; i < graf.size(); i++) {
-		for (int j = 0; j < graf[i].buddy.size(); j++) {
-
-			if (graf[i].buddy[j] > ktory) {
-				--graf[i].buddy[j];
-			}
-		}
-	}
-
-
-		wypisz_graf(graf);
 }
 
 
@@ -225,6 +227,7 @@ void usun_z_grafu(vector<node>& graf) {
 		cout << "Co chcesz usunac :\n1 - wierzcholek \n2 - krawedz\n3 - wszystko\n";
 		cin >> choice;
 	}
+	else cout << "Graf nie posiada elementow do usuniecia!\n";
 	switch (choice)
 	{
 	case 1:
