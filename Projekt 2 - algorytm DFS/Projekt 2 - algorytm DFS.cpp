@@ -157,60 +157,7 @@ void usun_puste_wierzcholki(vector<node>& graf) {
 	wypisz_graf(graf);
 	cout << "Usunieto puste wierzcholki i uporzadkowano graf.\n\n";
 }
-//void usun_z_grafu(vector<node>& graf) {
-//	if (graf.size() > 1) {
-//		cout << "Co chcesz usunac :\n1 - wierzcholek \n2 - krawedz\n3 - wszystko\n";
-//		int choice;
-//		cin >> choice;
-//		if (choice == 1) {
-//			cout << "Ktory wierzcholek chcesz usunac?\n";
-//			int ktory;
-//			cin >> ktory;
-//			if (ktory >= 1 && ktory < graf.size()) {
-//				for (int i = 1; i < graf.size(); ++i) {  // Usuń wszystkie krawędzie prowadzące do tego wierzchołka
-//					auto& buddies = graf[i].buddy;
-//					buddies.erase(remove(buddies.begin(), buddies.end(), ktory), buddies.end());
-//				}
-//				// Usuń wszystkie krawędzie wychodzące z tego wierzchołka
-//				graf[ktory].buddy.clear();
-//				cout << "Wierzcholek " << ktory << " usuniety z grafu.\n\n";
-//			}
-//			else {
-//				cout << "Nie ma takiego wierzcholka!\n";
-//			}
-//		}
-//		else if (choice == 2) {
-//			cout << "Ktora krawedz chcesz usunac?\n";
-//			int start, koniec;
-//			cin >> start >> koniec;
-//			if (start >= 1 && start < graf.size() && koniec >= 1 && koniec < graf.size()) {
-//				auto& startBuddies = graf[start].buddy;
-//				startBuddies.erase(remove(startBuddies.begin(), startBuddies.end(), koniec), startBuddies.end());
-//
-//				auto& endBuddies = graf[koniec].buddy;
-//				endBuddies.erase(remove(endBuddies.begin(), endBuddies.end(), start), endBuddies.end());
-//
-//				cout << "Krawedz pomiedzy wierzcholkami " << start << " i " << koniec << " usunieta z grafu.\n\n";
-//
-//			}
-//			else {
-//				cout << "Nie ma takich wierzcholkow!\n";
-//			}
-//		}
-//		else if (choice == 3) {
-//			graf.clear();
-//			node w0 = { };
-//			cout << "Graf zostal usuniety\n";
-//		}
-//		else {
-//			cout << "Nie ma takiej operacji\n";
-//		}
-//	}
-//	else {
-//		cout << "Nie ma czego usuwac\n";
-//	}
-//	usun_puste_wierzcholki(graf);
-//}
+
 void usun_wierzcholek(vector<node>& graf, int& ktory) {
 	usun(graf, ktory);
 
@@ -219,7 +166,33 @@ void usun_wierzcholek(vector<node>& graf, int& ktory) {
 	usun_puste_wierzcholki(graf);
 
 }
+void usun_krawendz(vector<node>&graf,int start,int stop) {
+	bool przesuwanie = 0;
+	bool istnieje = 0;
+	int ktory;
+	for (int i = 0; i < graf[start].buddy.size(); i++) {
+		if (graf[start].buddy[i] == stop) istnieje = 1;
+	}
+	if (istnieje) {
+		for (int j = 0; j < graf[start].buddy.size();j++) {
+			if (j < graf[start].buddy.size() - 1) {
+				graf[start].buddy[j] = graf[start].buddy[j + 1];
+			}
+			else {
+				graf[start].buddy.pop_back();
+			}
+		}
+	}
+	usun_puste_wierzcholki(graf);
+}
 
+void kasowanie_wszystko(vector<node>&graf) {
+	for (int i = graf.size(); i > 0; i--) {
+
+		graf.pop_back();
+	}
+
+}
 
 void usun_z_grafu(vector<node>& graf) {
 	int choice;
@@ -228,8 +201,7 @@ void usun_z_grafu(vector<node>& graf) {
 		cin >> choice;
 	}
 	else cout << "Graf nie posiada elementow do usuniecia!\n";
-	switch (choice)
-	{
+	switch (choice){
 	case 1:
 		cout << "Ktory wierzcholek chcesz usunac?\n";
 		int ktory;
@@ -238,13 +210,22 @@ void usun_z_grafu(vector<node>& graf) {
 		usun_wierzcholek(graf, ktory);
 		break;
 	case 2:
-
+		cout << "Ktora krawedz chcesz usunac?\n";
+		int start, stop;
+		cin >> start >> stop;
+		if (start >= 1 && start < graf.size() && stop >= 1 && stop < graf.size()) {
+			usun_krawendz(graf, start, stop);
+		}
+		else cout << "Nie ma takich wierzcholkow!\n";
 		break;
 	case 3:
-
+		kasowanie_wszystko(graf);
+		wypisz_graf(graf);
+		cout << "Graf zostal usuniety\n";
 
 		break;
 	default:
+		cout << "Nie ma takiej operacji!\n";
 		break;
 	}
 }
