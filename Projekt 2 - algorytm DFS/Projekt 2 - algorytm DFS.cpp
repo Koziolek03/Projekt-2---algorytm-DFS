@@ -82,13 +82,17 @@ void dodaj_do_grafu(vector<node>& graf) { //do poprawy: dodawanie wierzcholka, g
 		if (graf.size() < 3) {
 			node w0 = { };
 			graf.push_back(w0);
-			cout << "Podaj wartosc nowego wierzcholka\n";
-			double value;
-			cin >> value;
-			node nowyWierzcholek;
-			nowyWierzcholek.value = value;
-			nowyWierzcholek.visited = false;
-			graf.push_back(nowyWierzcholek);
+			for (int i = 1; i <= 2; ++i) {
+				cout << "Podaj wartosc nowego wierzcholka\n";
+				double value;
+				cin >> value;
+				node nowyWierzcholek;
+				nowyWierzcholek.value = value;
+				nowyWierzcholek.visited = false;
+				graf.push_back(nowyWierzcholek);
+			}
+			graf[1].buddy.push_back(2);
+			graf[2].buddy.push_back(1);
 		}
 		else {
 			cout << "Podaj wartosc nowego wierzcholka\n";
