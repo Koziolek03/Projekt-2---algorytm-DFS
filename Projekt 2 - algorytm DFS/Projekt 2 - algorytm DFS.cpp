@@ -129,7 +129,21 @@ void dodaj_do_grafu(vector<node>& graf) { //do poprawy: dodawanie wierzcholka, g
 		}
 	}
 	if (choice == 2) {
-		int buddy1, buddy2;
+		if (graf.size() < 4) {
+			cout << "Potrzeba wiecej wierzcholkow, zeby dodac nowa krawedz\n";
+		}
+		else {
+			int buddy1, buddy2;
+			cout << "Miedzy ktorymi wierzcholkami chcesz poprowadzic krawedz? :\n";
+			cin >> buddy1 >> buddy2;
+			for (int i = 0; i < graf[buddy1].buddy.size() - 1; ++i) {
+				if (graf[buddy1].buddy[i] == buddy2) {
+					cout << "Taka krawedz juz istnieje\n";
+				}
+			}
+			graf[buddy1].buddy.push_back(buddy2);
+			graf[buddy2].buddy.push_back(buddy1);
+		}
 	}
 	wypisz_graf(graf);
 };
