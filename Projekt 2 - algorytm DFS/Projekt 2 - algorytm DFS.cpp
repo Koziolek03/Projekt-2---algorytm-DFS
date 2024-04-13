@@ -293,7 +293,7 @@ void menu(bool& exit_menu, vector<node>& graf, bool& exit) {
 	}
 }
 
-void setup(vector<node> graf, stack<int>& stos, int& maxValue, bool& przeszukany) {
+void setup(vector<node>& graf, stack<int>& stos, int& maxValue, bool& przeszukany) {
 	przeszukany = 0;
 
 	for (int i = 1; i < graf.size(); i++) {
