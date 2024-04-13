@@ -75,11 +75,12 @@ void wybranie_grafu3(vector<node>& graf) {
 }
 
 void dodaj_do_grafu(vector<node>& graf) { //do poprawy: dodawanie wierzcholka, gdy graf jest pusty i niektore warunki
-	cout << "Co chcesz dodac? :\n1 - wierzcholek \n2 - krawedz";
+	cout << "Co chcesz dodac? :\n1 - wierzcholek \n2 - krawedz\n";
 	int choice;
 	cin >> choice;
 	if (choice == 1) {
 		if (graf.size() < 3) {
+			cout << "\nDodaj na poczatek dwa wierzcholki, zeby powsatl graf :\n";
 			node w0 = { };
 			graf.push_back(w0);
 			for (int i = 1; i <= 2; ++i) {
@@ -123,8 +124,8 @@ void dodaj_do_grafu(vector<node>& graf) { //do poprawy: dodawanie wierzcholka, g
 			}
 			else {
 				cout << "Nie ma tylu wierzcholkow!\n";
-			}
-			cout << "Nowy wierzcholek dodany do grafu.\n\n";
+				graf.pop_back();
+			};
 		}
 	}
 	if (choice == 2) {
