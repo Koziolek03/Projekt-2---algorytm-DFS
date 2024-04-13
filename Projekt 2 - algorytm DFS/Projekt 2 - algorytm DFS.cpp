@@ -11,7 +11,7 @@ struct node {
 	bool visited = false;
 	vector <int> buddy;
 };
-void setup(vector<node> graf, stack<int>& stos, int& maxValue, bool& przeszukany) {
+void setup(vector<node>&graf, stack<int>& stos, int& maxValue, bool& przeszukany) {
 	przeszukany = 0;
 
 	for (int i = 1; i < graf.size(); i++) {
@@ -64,7 +64,7 @@ void DFS_graf_good(vector<node>&graf,stack<int> &stos, bool &przeszukany,bool &s
 				sprawdzony = true;
 			}
 		}
-		if (!komplet)cout << "Uwaga graf nie jest spojny, sprawdz polaczenie wierzcholkow!\n";
+		if (!komplet)cout << "\n\nUwaga graf nie jest spojny, sprawdz polaczenie wierzcholkow!\n";
 	}
 }
 void wypisz_graf(vector<node>& graf) {
