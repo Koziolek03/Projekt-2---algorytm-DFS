@@ -140,32 +140,76 @@ void wybranie_grafu3(vector<node>& graf) {
 }
 
 void dodaj_do_grafu(vector<node>& graf) { //do poprawy: dodawanie wierzcholka, gdy graf jest pusty i niektore warunki
-	double value;
-	cout << "Podaj wartosc nowego wierzcholka\n";
-	cin >> value;
-
-	node nowyWierzcholek;
-	nowyWierzcholek.value = value;
-	nowyWierzcholek.visited = false;
-	graf.push_back(nowyWierzcholek);
-
-	int ileKrawedzi;
-	cout << "Ile krawedzi ma wychodzic z tego wierzcholka?\n";
-	cin >> ileKrawedzi;
-	if (ileKrawedzi >= 1 && ileKrawedzi < graf.size() - 1) {
-		cout << "Do ktorych wierzcholkow maja prowadzic te krawedzie?\n";
-		for (int i = 0; i < ileKrawedzi; ++i) {
-			int buddy;
-			cin >> buddy;
-			if (buddy >= 1 && buddy < graf.size() - 1) {
-				graf[graf.size() - 1].buddy.push_back(buddy);
-				graf[buddy].buddy.push_back(graf.size() - 1);
+	cout << "Co chcesz dodac? :\n1 - wierzcholek \n2 - krawedz\n";
+	int choice;
+	cin >> choice;
+	if (choice == 1) {
+		if (graf.size() < 3) {
+			cout << "\nDodaj na poczatek dwa wierzcholki, zeby powsatl graf :\n";
+			node w0 = { };
+			graf.push_back(w0);
+			for (int i = 1; i <= 2; ++i) {
+				cout << "Podaj wartosc nowego wierzcholka\n";
+				double value;
+				cin >> value;
+				node nowyWierzcholek;
+				nowyWierzcholek.value = value;
+				nowyWierzcholek.visited = false;
+				graf.push_back(nowyWierzcholek);
 			}
-			else { cout << "Nie ma takiego wierzcholka!\n"; }
+			graf[1].buddy.push_back(2);
+			graf[2].buddy.push_back(1);
+		}
+		else {
+			cout << "Podaj wartosc nowego wierzcholka\n";
+			double value;
+			cin >> value;
+			node nowyWierzcholek;
+			nowyWierzcholek.value = value;
+			nowyWierzcholek.visited = false;
+			graf.push_back(nowyWierzcholek);
+
+			int ileKrawedzi;
+			cout << "Ile krawedzi ma wychodzic z tego wierzcholka?\n";
+			cin >> ileKrawedzi;
+			if (ileKrawedzi >= 1 && ileKrawedzi < graf.size() - 1) {
+				cout << "Do ktorych wierzcholkow maja prowadzic te krawedzie?\n";
+				for (int i = 0; i < ileKrawedzi; ++i) {
+					int buddy;
+					cin >> buddy;
+					if (buddy >= 1 && buddy < graf.size() - 1) {
+						graf[graf.size() - 1].buddy.push_back(buddy);
+						graf[buddy].buddy.push_back(graf.size() - 1);
+					}
+					else {
+						cout << "Nie ma takiego wierzcholka!\n";
+						--i;
+					}
+				}
+			}
+			else {
+				cout << "Nie ma tylu wierzcholkow!\n";
+				graf.pop_back();
+			};
 		}
 	}
-	else { cout << "Nie ma tylu wierzcholkow!\n"; }
-	cout << "Nowy wierzcholek dodany do grafu.\n\n";
+	if (choice == 2) {
+		if (graf.size() < 4) {
+			cout << "Potrzeba wiecej wierzcholkow, zeby dodac nowa krawedz\n";
+		}
+		else {
+			int buddy1, buddy2;
+			cout << "Miedzy ktorymi wierzcholkami chcesz poprowadzic krawedz? :\n";
+			cin >> buddy1 >> buddy2;
+			for (int i = 0; i < graf[buddy1].buddy.size() - 1; ++i) {
+				if (graf[buddy1].buddy[i] == buddy2) {
+					cout << "Taka krawedz juz istnieje\n";
+				}
+			}
+			graf[buddy1].buddy.push_back(buddy2);
+			graf[buddy2].buddy.push_back(buddy1);
+		}
+	}
 	wypisz_graf(graf);
 };
 
