@@ -257,7 +257,7 @@ void usun_puste_wierzcholki(vector<node>& graf) {
 				kompletny = 0;
 				ktory = i;
 				usun(graf, ktory);
-
+				 
 			}
 		}
 	}
